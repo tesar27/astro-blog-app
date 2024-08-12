@@ -1,12 +1,26 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-const { frontmatter } = Astro.props;
+const { frontmatter, allTags } = Astro.props;
+
+const postTags = frontmatter.tags;
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
   <p>{frontmatter.pubDate.toString().slice(0, 10)}</p>
-  <p>{frontmatter.description}</p></BaseLayout
->
-<p>Written by: {frontmatter.author}</p>
-<img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
-<slot />
+  <p>{frontmatter.description}</p>
+  <p>Written by: {frontmatter.author}</p>
+  <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
+  <p>
+    <ul class="flat-list">
+      Similar Tags:
+      {
+        postTags.map((tag: any) => (
+          <li>
+            <a href={`/tags/${tag}`}> {tag}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </p>
+  <slot />
+</BaseLayout>
